@@ -1,0 +1,62 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+{% if admin_dashboard %}
+<section class="dashboard-grid">
+  <article class="dashboard-card">
+    <span class="dashboard-label">Total Sales</span>
+    <strong>${{ admin_dashboard.sales_total|default:"0.00" }}</strong>
+  </article>
+  <article class="dashboard-card">
+    <span class="dashboard-label">Orders</span>
+    <strong>{{ admin_dashboard.order_count }}</strong>
+  </article>
+  <article class="dashboard-card dashboard-card--wide">
+    <span class="dashboard-label">Revenue Over Time</span>
+    <ul class="dashboard-list">
+      {% for point in admin_dashboard.revenue_series %}
+      <li>
+        <span>{{ point.day }}</span>
+        <strong>${{ point.total|default:"0.00" }}</strong>
+      </li>
+      {% empty %}
+      <li><span>No paid orders yet.</span></li>
+      {% endfor %}
+    </ul>
+  </article>
+  <article class="dashboard-card dashboard-card--wide">
+    <span class="dashboard-label">Top-Selling Products</span>
+    <ul class="dashboard-list">
+      {% for item in admin_dashboard.top_products %}
+      <li>
+        <span>{{ item.product_name }}</span>
+        <strong>{{ item.quantity_sold }} sold</strong>
+      </li>
+      {% empty %}
+      <li><span>No sales data available yet.</span></li>
+      {% endfor %}
+    </ul>
+  </article>
+  <article class="dashboard-card dashboard-card--wide">
+    <span class="dashboard-label">Low Stock Alerts</span>
+    <ul class="dashboard-list">
+      {% for product in admin_dashboard.low_stock_products %}
+      <li>
+        <span>{{ product.name }}</span>
+        <strong>{{ product.stock_quantity }} left</strong>
+      </li>
+      {% empty %}
+      <li><span>Inventory looks healthy.</span></li>
+      {% endfor %}
+    </ul>
+  </article>
+</section>
+{% endif %}
+<div id="content-main">
+  {% if app_list %}
+    {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+  {% else %}
+    <p>You do not have permission to view or edit anything.</p>
+  {% endif %}
+</div>
+{% endblock %}
