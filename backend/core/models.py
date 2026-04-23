@@ -154,7 +154,7 @@ class Cart(TimestampedModel):
         constraints = [
             models.UniqueConstraint(
                 fields=["user"],
-                condition=Q(status=Status.ACTIVE),
+                condition=Q(status="active"),
                 name="unique_active_cart_per_user",
             )
         ]
