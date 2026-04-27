@@ -72,7 +72,7 @@ class HomeAPIView(APIView):
             "featured_products": featured_products,
             "new_arrivals": new_arrivals,
         }
-        serializer = HomeSerializer(payload)
+        serializer = HomeSerializer(payload, context={"request": request})
         return Response(serializer.data)
 
 
@@ -134,7 +134,7 @@ class CartAPIView(APIView):
 
     def get(self, request):
         cart = get_or_create_active_cart(request.user)
-        return Response(CartSerializer(cart).data)
+        return Response(CartSerializer(cart, context={"request": request}).data)
 
 
 class CartItemCreateAPIView(APIView):
@@ -144,7 +144,7 @@ class CartItemCreateAPIView(APIView):
         serializer = AddCartItemSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         cart = serializer.save()
-        return Response(CartSerializer(cart).data, status=status.HTTP_201_CREATED)
+        return Response(CartSerializer(cart, context={"request": request}).data, status=status.HTTP_201_CREATED)
 
 
 class CartItemDetailAPIView(APIView):
@@ -159,13 +159,13 @@ class CartItemDetailAPIView(APIView):
         serializer = UpdateCartItemSerializer(data=request.data, context={"item": item})
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(CartSerializer(item.cart).data)
+        return Response(CartSerializer(item.cart, context={"request": request}).data)
 
     def delete(self, request, pk):
         item = self.get_object(request, pk)
         cart = item.cart
         item.delete()
-        return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+        return Response(CartSerializer(cart, context={"request": request}).data, status=status.HTTP_200_OK)
 
 
 class CheckoutAPIView(APIView):
@@ -206,7 +206,7 @@ class SessionAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        serializer = ActiveCartSerializer(request.user)
+        serializer = ActiveCartSerializer(request.user, context={"request": request})
         return Response({"user": UserSerializer(request.user).data, **serializer.data})
 
 
