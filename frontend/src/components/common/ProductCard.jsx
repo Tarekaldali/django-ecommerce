@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 
 import { useCart } from "../../hooks/useCart";
+import { usePopup } from "../../contexts/PopupContext";
 import { formatCurrency } from "../../utils/format";
 
 const placeholderImage = "https://placehold.co/600x700/f1f5f9/122033?text=Product";
 
 export default function ProductCard({ product }) {
   const { addToCart, workingId } = useCart();
+  const { showPopup } = usePopup();
 
   async function handleAddToCart() {
     try {
       await addToCart(product, 1);
     } catch (error) {
-      alert(error.message);
+      showPopup(error.message);
     }
   }
 
