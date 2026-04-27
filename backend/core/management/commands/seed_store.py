@@ -212,6 +212,86 @@ PRODUCT_DATA = [
         "image_url": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
         "tags": "home, lighting, decor",
     },
+    {
+        "category": "Electronics",
+        "name": "Portable Charger 20000mAh",
+        "sku": "EL-9050",
+        "brand": "ChargePro",
+        "short_description": "High-capacity fast-charging power bank.",
+        "description": "Compact and powerful USB-C power bank for multiple device charging on the go.",
+        "price": Decimal("49.99"),
+        "compare_at_price": Decimal("69.99"),
+        "stock_quantity": 40,
+        "is_featured": False,
+        "rating": Decimal("4.50"),
+        "review_count": 120,
+        "image_url": "https://images.unsplash.com/photo-1555617117-08fda1d2f58b?auto=format&fit=crop&w=900&q=80",
+        "tags": "electronics, power, accessories",
+    },
+    {
+        "category": "Jewellery",
+        "name": "Minimal Hoop Earrings",
+        "sku": "JW-3308",
+        "brand": "Linea",
+        "short_description": "Lightweight gold hoop earrings.",
+        "description": "Everyday elegant hoops with a polished finish.",
+        "price": Decimal("29.00"),
+        "compare_at_price": None,
+        "stock_quantity": 60,
+        "is_featured": False,
+        "rating": Decimal("4.40"),
+        "review_count": 34,
+        "image_url": "https://images.unsplash.com/photo-1520975919714-5a0a4f24d2d7?auto=format&fit=crop&w=900&q=80",
+        "tags": "jewellery, earrings, accessories",
+    },
+    {
+        "category": "Clothing",
+        "name": "Relaxed Fit Tee",
+        "sku": "CL-1075",
+        "brand": "Maison Lune",
+        "short_description": "Soft cotton relaxed tee for everyday wear.",
+        "description": "A wardrobe basic in breathable cotton with a relaxed silhouette.",
+        "price": Decimal("24.99"),
+        "compare_at_price": Decimal("34.99"),
+        "stock_quantity": 120,
+        "is_featured": False,
+        "rating": Decimal("4.35"),
+        "review_count": 210,
+        "image_url": "https://images.unsplash.com/photo-1520975919715-1f9b6e4f2f68?auto=format&fit=crop&w=900&q=80",
+        "tags": "clothing, tee, basics",
+    },
+    {
+        "category": "Shoes",
+        "name": "Trail Runner",
+        "sku": "SH-5203",
+        "brand": "Stride",
+        "short_description": "Lightweight trail running shoes.",
+        "description": "Durable outsole and breathable upper for off-road running and hiking.",
+        "price": Decimal("129.00"),
+        "compare_at_price": Decimal("159.00"),
+        "stock_quantity": 30,
+        "is_featured": False,
+        "rating": Decimal("4.60"),
+        "review_count": 72,
+        "image_url": "https://images.unsplash.com/photo-1528701800489-4765c6d9a1b8?auto=format&fit=crop&w=900&q=80",
+        "tags": "shoes, running, outdoors",
+    },
+    {
+        "category": "Health & Beauty",
+        "name": "Aromatic Candle Set",
+        "sku": "HB-1522",
+        "brand": "Pure Dew",
+        "short_description": "Set of 3 scented candles.",
+        "description": "Hand-poured candles with calming essential oil blends.",
+        "price": Decimal("34.99"),
+        "compare_at_price": Decimal("49.99"),
+        "stock_quantity": 45,
+        "is_featured": False,
+        "rating": Decimal("4.70"),
+        "review_count": 58,
+        "image_url": "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=80",
+        "tags": "home, candle, wellness",
+    },
 ]
 
 
@@ -267,7 +347,7 @@ class Command(BaseCommand):
                 },
             )
 
-        admin_user, created = User.objects.get_or_create(
+        admin_user, admin_created = User.objects.get_or_create(
             email="admin@flipmart.local",
             defaults={
                 "username": "flipmartadmin",
@@ -278,11 +358,11 @@ class Command(BaseCommand):
                 "is_superuser": True,
             },
         )
-        if created:
+        if admin_created:
             admin_user.set_password("Admin123!")
             admin_user.save()
 
-            customer, created = User.objects.get_or_create(
+        customer, customer_created = User.objects.get_or_create(
             email="customer@flipmart.local",
             defaults={
                 "username": "flipmartcustomer",
@@ -292,7 +372,7 @@ class Command(BaseCommand):
                 "role": User.Role.CUSTOMER,
             },
         )
-        if created:
+        if customer_created:
             customer.set_password("Demo12345!")
             customer.save()
 
