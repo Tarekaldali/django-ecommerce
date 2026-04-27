@@ -36,26 +36,10 @@ export default function Header() {
     setSearch("");
   }
 
+  const [accountOpen, setAccountOpen] = useState(false);
+
   return (
     <header className="site-header">
-      <div className="topbar">
-        <div className="container topbar__content">
-          <p>USD</p>
-          <nav className="topbar__links">
-            <Link to="/account">My Account</Link>
-            <Link to="/contact">Contact</Link>
-            <Link to="/cart">My Cart</Link>
-            {isAuthenticated ? (
-              <button className="link-button" onClick={logout} type="button">
-                Logout
-              </button>
-            ) : (
-              <Link to="/login">Login</Link>
-            )}
-          </nav>
-        </div>
-      </div>
-
       <div className="header-main">
         <div className="container header-main__content">
           <Link className="logo" to="/">
@@ -77,9 +61,52 @@ export default function Header() {
             <button type="submit">Search</button>
           </form>
           <div className="header-actions">
-            <div className="header-account">
-              <span className="eyebrow">Hello</span>
-              <strong>{isAuthenticated ? user?.first_name || user?.email : "Guest"}</strong>
+            <div className="header-account account-dropdown">
+              <button
+                type="button"
+                className="account-dropdown__toggle"
+                onClick={() => setAccountOpen((v) => !v)}
+              >
+                <span className="eeee">Hello, {isAuthenticated ? user?.first_name : "Guest"}  </span>
+              </button>
+              {accountOpen ? (
+                <ul className="account-dropdown__menu">
+                  <li>
+                    <Link to="/account" onClick={() => setAccountOpen(false)}>
+                      My Account
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/contact" onClick={() => setAccountOpen(false)}>
+                      Contact
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/cart" onClick={() => setAccountOpen(false)}>
+                      My Cart
+                    </Link>
+                  </li>
+                  <li>
+                    {isAuthenticated ? (
+                      <button
+                        className="link-button"
+                        onClick={() => {
+                          setAccountOpen(false);
+                          logout();
+                        }}
+                        type="button"
+                      >
+                        Logout
+                      </button>
+                    ) : (
+                      <Link to="/login" onClick={() => setAccountOpen(false)}>
+                        Login
+                      </Link>
+                    )}
+                  </li>
+                </ul>
+              ) : null}
+
             </div>
             <Link className="cart-pill" to="/cart">
               <span>Cart</span>
