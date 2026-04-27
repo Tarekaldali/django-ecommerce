@@ -5,6 +5,7 @@ import { apiRequest } from "../api/client";
 import LoadingState from "../components/common/LoadingState";
 import ProductCard from "../components/common/ProductCard";
 import { useCart } from "../hooks/useCart";
+import { usePopup } from "../contexts/PopupContext";
 import { formatCurrency } from "../utils/format";
 
 const placeholderImage = "https://placehold.co/900x1100/f1f5f9/122033?text=Product";
@@ -12,6 +13,7 @@ const placeholderImage = "https://placehold.co/900x1100/f1f5f9/122033?text=Produ
 export default function ProductDetailPage() {
   const { slug } = useParams();
   const { addToCart, workingId } = useCart();
+  const { showPopup } = usePopup();
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -37,9 +39,9 @@ export default function ProductDetailPage() {
   async function handleAddToCart() {
     try {
       await addToCart(product, quantity);
-      alert("Item added to cart.");
+      showPopup("Item added to cart.");
     } catch (cartError) {
-      alert(cartError.message);
+      showPopup(cartError.message);
     }
   }
 
