@@ -282,7 +282,7 @@ class Command(BaseCommand):
             admin_user.set_password("Admin123!")
             admin_user.save()
 
-        customer, created = User.objects.get_or_create(
+            customer, created = User.objects.get_or_create(
             email="customer@flipmart.local",
             defaults={
                 "username": "flipmartcustomer",
