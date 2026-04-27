@@ -71,11 +71,32 @@ img {
   padding: 32px 0;
 }
 
+.eeee{
+  display: inline-block;
+  color: white;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px ;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(14, 17, 185, 0.986);
+  
+}
+.eeee:hover{
+  background: rgba(81, 84, 243, 0.8);
+  border-color: rgba(14, 17, 185, 0.8);
+  position: relative;
+  top: -3px;
+  animation: 0.7s ease 0s 1 slidein;
+}
+
 .eyebrow,
 .section-heading__eyebrow,
 .hero-banner__eyebrow {
   display: inline-block;
-  color: var(--brand-blue);
+  color: white;
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -997,6 +1018,74 @@ img {
 .auth-card p {
   color: var(--text-soft);
 }
+
+/* Account dropdown (header) */
+.account-dropdown {
+  position: relative;
+}
+
+.account-dropdown__toggle {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  text-align: right;
+}
+
+.account-dropdown__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  list-style: none;
+  padding: 8px 12px;
+  min-width: 160px;
+  z-index: 40;
+}
+
+.account-dropdown__menu li {
+  padding: 8px 6px;
+}
+
+.account-dropdown__menu a,
+.account-dropdown__menu button {
+  color: var(--text);
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+/* Popup modal styles */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+.popup-dialog {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 520px;
+  width: calc(100% - 48px);
+  box-shadow: var(--shadow-lg);
+}
+
+.popup-content {
+  margin-bottom: 16px;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 
 .account-stack,
 .orders-list,
