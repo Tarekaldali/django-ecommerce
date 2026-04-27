@@ -91,7 +91,11 @@ class ProductListSerializer(serializers.ModelSerializer):
         ]
 
     def get_image(self, obj):
-        return obj.display_image
+        image = obj.display_image
+        request = self.context.get("request") if hasattr(self, "context") else None
+        if image and request and isinstance(image, str) and image.startswith("/"):
+            return request.build_absolute_uri(image)
+        return image
 
 
 class ProductDetailSerializer(ProductListSerializer):
@@ -138,7 +142,11 @@ class CartProductSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "slug", "sku", "price", "stock_quantity", "is_in_stock", "image"]
 
     def get_image(self, obj):
-        return obj.display_image
+        image = obj.display_image
+        request = self.context.get("request") if hasattr(self, "context") else None
+        if image and request and isinstance(image, str) and image.startswith("/"):
+            return request.build_absolute_uri(image)
+        return image
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -194,6 +202,8 @@ class UpdateCartItemSerializer(serializers.Serializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product_image_url = serializers.SerializerMethodField()
+
     class Meta:
         model = OrderItem
         fields = [
@@ -205,6 +215,13 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "quantity",
             "total_price",
         ]
+
+    def get_product_image_url(self, obj):
+        url = obj.product_image_url
+        request = self.context.get("request") if hasattr(self, "context") else None
+        if url and request and isinstance(url, str) and url.startswith("/"):
+            return request.build_absolute_uri(url)
+        return url
 
 
 class OrderListSerializer(serializers.ModelSerializer):
@@ -284,5 +301,5 @@ class ActiveCartSerializer(serializers.Serializer):
 
     def get_cart(self, obj):
         cart = get_or_create_active_cart(obj)
-        return CartSerializer(cart).data
+        return CartSerializer(cart, context=self.context).data
 
