@@ -15,7 +15,7 @@ const emptyShippingForm = {
   shipping_state: "",
   shipping_postal_code: "",
   shipping_country: "Lebanon",
-  payment_method: "mock",
+  payment_method: "card",
   notes: "",
 };
 
@@ -177,7 +177,6 @@ export default function CheckoutPage() {
         <label>
           Payment method
           <select name="payment_method" onChange={handleChange} value={form.payment_method}>
-            <option value="mock">Mock card payment</option>
             <option value="card">Card</option>
             <option value="cod">Cash on delivery</option>
           </select>
